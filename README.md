@@ -16,15 +16,6 @@ A Python utility to read images from a directory, convert them to binary and bas
 - Solace PubSub+ broker (or Solace Cloud service)
 - Python dependencies (see requirements.txt)
 
-## Installation
-
-1. Clone this repository or download the source code
-2. Install the required dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Environment Setup
 
 1. [Install Python3](https://www.python.org/downloads/) (See installed version using `python3 -V`)  
@@ -36,6 +27,15 @@ pip install -r requirements.txt
    1.1 MacOS/Linux: `source venv/bin/activate`  
    1.2 Windows: `venv/Scripts/activate`
 1. After activating the virtual environment, make sure you have the latest pip installed `pip install --upgrade pip`
+
+## Installation
+
+1. Clone this repository or download the source code
+2. Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Usage
 
