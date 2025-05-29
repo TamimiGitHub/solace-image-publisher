@@ -20,6 +20,9 @@ if platform.uname().system == 'Windows':
 # Default topic prefix
 TOPIC_PREFIX = "solace/images"
 
+# Global debug flag
+DEBUG = False
+
 # Inner classes for error handling
 class ServiceEventHandler(ReconnectionListener, ReconnectionAttemptListener, ServiceInterruptionListener):
     def on_reconnected(self, e: ServiceEvent):
@@ -86,7 +89,21 @@ def read_image_to_base64(image_path: str) -> Optional[str]:
     try:
         with open(image_path, 'rb') as image_file:
             binary_data = image_file.read()
+            # Standard base64 encoding without line breaks or special characters
             base64_data = base64.b64encode(binary_data).decode('utf-8')
+            
+            # Validate data format for common image types
+            file_ext = os.path.splitext(image_path)[1].lower()
+            if file_ext in ['.jpg', '.jpeg']:
+                # JPEG base64 should start with /9j/
+                if not base64_data.startswith('/9j/'):
+                    print(f"Warning: JPEG image {image_path} does not have expected base64 prefix")
+            elif file_ext == '.png':
+                # PNG base64 should start with iVBORw0K
+                if not base64_data.startswith('iVBORw0K'):
+                    print(f"Warning: PNG image {image_path} does not have expected base64 prefix")
+            
+            print(f"Encoded {image_path} - Size: {len(base64_data)} chars")
             return base64_data
     except Exception as e:
         print(f"Error reading image {image_path}: {e}")
@@ -150,6 +167,19 @@ def publish_images(images_dir: str, host: str, vpn: str, username: str, password
             if not base64_data:
                 continue
             
+            # Debug: Output sample of base64 data
+            if DEBUG:
+                print(f"Base64 data sample (first 50 chars): {base64_data[:50]}...")
+                print(f"Base64 data sample (last 50 chars): ...{base64_data[-50:]}")
+                
+                # Check for common image format markers
+                if '/9j/' in base64_data[:100]:
+                    print("✓ JPEG marker detected in base64 data")
+                elif 'iVBORw0K' in base64_data[:100]:
+                    print("✓ PNG marker detected in base64 data")
+                else:
+                    print("⚠ No standard image format markers detected in the first 100 chars")
+            
             # Create topic with image name
             topic = Topic.of(f"{TOPIC_PREFIX}/{image_filename}")
             
@@ -200,8 +230,14 @@ def main():
     parser.add_argument('--password', type=str, 
                         default=os.environ.get('SOLACE_PASSWORD', 'default'),
                         help='Authentication password (default: default)')
+    parser.add_argument('--debug', action='store_true',
+                        help='Enable debug mode to print base64 encoding details')
     
     args = parser.parse_args()
+    
+    # Set global debug flag
+    global DEBUG
+    DEBUG = args.debug
     
     # Create images directory if it doesn't exist
     if not os.path.exists(args.images_dir):

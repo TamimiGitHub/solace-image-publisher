@@ -9,12 +9,14 @@ A Python utility to read images from a directory, convert them to binary and bas
 - Publishes images to a Solace message broker with appropriate metadata
 - Configurable via command-line arguments or environment variables
 - Handles connection errors and reconnection attempts gracefully
+- Includes a React-based image viewer demo
 
 ## Prerequisites
 
 - Python 3.6 or higher
 - Solace PubSub+ broker (or Solace Cloud service)
 - Python dependencies (see requirements.txt)
+- Node.js 14+ (for the demo viewer)
 
 ## Environment Setup
 
@@ -69,6 +71,60 @@ Available options:
 - `--vpn`: Message VPN name (default: 'default')
 - `--username`: Authentication username (default: 'default')
 - `--password`: Authentication password (default: 'default')
+
+### Environment Variables
+
+You can also set configuration via environment variables:
+
+- `SOLACE_HOST`: Solace broker host
+- `SOLACE_VPN`: Message VPN name
+- `SOLACE_USERNAME`: Authentication username
+- `SOLACE_PASSWORD`: Authentication password
+
+## Image Viewer Demo
+
+The project includes a React-based demo application to view images published by the Python script.
+
+### Demo Setup
+
+1. Navigate to the demo directory:
+
+```bash
+cd demo
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the application:
+
+```bash
+npm start
+```
+
+The demo application will connect to a local Solace broker and display any images published to the `solace/images/>` topic.
+
+For more details, see the [demo README](./demo/README.md).
+
+## Topic Structure
+
+Images are published to topics with the following format:
+```
+solace/images/{image_filename}
+```
+
+## Message Format
+
+Each published message contains:
+- Payload: Base64-encoded image data
+- Properties:
+  - `filename`: Original image filename
+  - `content-type`: Image MIME type (e.g., image/jpeg)
+  - `encoding`: Always "base64"
+  - `application-message-id`: Unique identifier for the image
 
 ### Environment Variables
 
