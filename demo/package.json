@@ -1,0 +1,11 @@
+{
+  "name": "solace_image_preview",
+  "version": "1.0.0",
+  "description": "This React application recieves base64 binary images from the solace broker and views them",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TamimiGithub",
+  "license": "ISC"
+}
