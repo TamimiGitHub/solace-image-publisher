@@ -13,6 +13,7 @@ from typing import List, Optional
 from solace.messaging.messaging_service import MessagingService, ReconnectionListener, ReconnectionAttemptListener, ServiceInterruptionListener, RetryStrategy, ServiceEvent
 from solace.messaging.resources.topic import Topic
 from solace.messaging.publisher.direct_message_publisher import PublishFailureListener, FailedPublishEvent
+from solace.messaging.config.transport_security_strategy import TLS
 
 if platform.uname().system == 'Windows':
     os.environ["PYTHONUNBUFFERED"] = "1"  # Disable stdout buffer
@@ -133,10 +134,12 @@ def publish_images(images_dir: str, host: str, vpn: str, username: str, password
         "solace.messaging.authentication.scheme.basic.username": username,
         "solace.messaging.authentication.scheme.basic.password": password
     }
+    transport_security_strategy = TLS.create().without_certificate_validation()
 
     # Build messaging service with a reconnection strategy
     messaging_service = MessagingService.builder().from_properties(broker_props)\
                        .with_reconnection_retry_strategy(RetryStrategy.parametrized_retry(20, 3))\
+                       .with_transport_security_strategy(transport_security_strategy)\
                        .build()
 
     # Blocking connect thread
