@@ -33,13 +33,17 @@ A Python utility to read images from a directory, convert them to binary and bas
 ## Installation
 
 1. Clone this repository or download the source code
-2. Install the required dependencies:
+2. Install the project and its dependencies:
 
 ```bash
-pip install -r requirements.txt
+pip install .
+# Or using uv
+# uv pip install .
 ```
 
 ## Usage
+
+After installation, you can run the script directly from your terminal.
 
 1. Create an `images` directory (if not already present) and add your image files:
 
@@ -51,17 +55,29 @@ mkdir images
 2. Run the script:
 
 ```bash
-python image_publisher.py
+image-publisher
 ```
 
 This will use default settings (local Solace broker, 'images' directory).
 
-### Command Line Options
-
-You can customize the behavior with command-line arguments:
+If you prefer not to install the package into your environment, you can use `uvx` to run it directly:
 
 ```bash
-python image_publisher.py --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-vpn --username=user --password=pass
+uvx image-publisher
+```
+
+### Command Line Options
+
+You can customize the behavior with command-line arguments.
+
+When installed:
+```bash
+image-publisher --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-vpn --username=user --password=pass
+```
+
+When using `uvx` (note the `--` to separate `uvx` arguments from script arguments):
+```bash
+uvx image-publisher -- --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-vpn --username=user --password=pass
 ```
 
 Available options:
@@ -108,32 +124,6 @@ npm start
 The demo application will connect to a local Solace broker and display any images published to the `solace/images/>` topic.
 
 For more details, see the [demo README](./demo/README.md).
-
-## Topic Structure
-
-Images are published to topics with the following format:
-```
-solace/images/{image_filename}
-```
-
-## Message Format
-
-Each published message contains:
-- Payload: Base64-encoded image data
-- Properties:
-  - `filename`: Original image filename
-  - `content-type`: Image MIME type (e.g., image/jpeg)
-  - `encoding`: Always "base64"
-  - `application-message-id`: Unique identifier for the image
-
-### Environment Variables
-
-You can also set configuration via environment variables:
-
-- `SOLACE_HOST`: Solace broker host
-- `SOLACE_VPN`: Message VPN name
-- `SOLACE_USERNAME`: Authentication username
-- `SOLACE_PASSWORD`: Authentication password
 
 ## Topic Structure
 

@@ -222,8 +222,8 @@ def main():
     parser.add_argument('--images-dir', type=str, default='images',
                         help='Directory containing images (default: images)')
     parser.add_argument('--host', type=str, 
-                        default=os.environ.get('SOLACE_HOST', 'tcp://localhost:55554'),
-                        help='Solace broker host (default: tcp://localhost:55554)')
+                        default=os.environ.get('SOLACE_HOST', 'tcp://localhost:55555'),
+                        help='Solace broker host (default: tcp://localhost:55555)')
     parser.add_argument('--vpn', type=str, 
                         default=os.environ.get('SOLACE_VPN', 'default'),
                         help='Message VPN name (default: default)')
