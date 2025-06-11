@@ -14,3 +14,6 @@ dependencies = [
 
 [project.scripts]
 image-publisher = "image_publisher:main"
+
+[tool.setuptools]
+py-modules = ["image_publisher"]

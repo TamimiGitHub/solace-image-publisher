@@ -60,10 +60,10 @@ image-publisher
 
 This will use default settings (local Solace broker, 'images' directory).
 
-If you prefer not to install the package into your environment, you can use `uvx` to run it directly:
+If you prefer not to install the package into your environment, you can use `uvx` to run it directly from your project source:
 
 ```bash
-uvx image-publisher
+uvx --package . image-publisher
 ```
 
 ### Command Line Options
@@ -77,7 +77,7 @@ image-publisher --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-
 
 When using `uvx` (note the `--` to separate `uvx` arguments from script arguments):
 ```bash
-uvx image-publisher -- --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-vpn --username=user --password=pass
+uvx --package . image-publisher -- --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-vpn --username=user --password=pass
 ```
 
 Available options:
