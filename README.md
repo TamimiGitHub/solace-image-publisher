@@ -13,7 +13,7 @@ A Python utility to read images from a directory, convert them to binary and bas
 
 ## Prerequisites
 
-- Python 3.6 or higher
+- Python 3.10 or higher
 - Solace PubSub+ broker (or Solace Cloud service)
 - Python dependencies (see requirements.txt)
 - Node.js 14+ (for the demo viewer)
@@ -63,7 +63,7 @@ This will use default settings (local Solace broker, 'images' directory).
 If you prefer not to install the package into your environment, you can use `uvx` to run it directly from your project source:
 
 ```bash
-uvx --package . image-publisher
+uvx --from . image-publisher
 ```
 
 ### Command Line Options
@@ -77,7 +77,7 @@ image-publisher --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-
 
 When using `uvx` (note the `--` to separate `uvx` arguments from script arguments):
 ```bash
-uvx --package . image-publisher -- --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-vpn --username=user --password=pass
+uvx --from . image-publisher -- --images-dir=/path/to/images --host=tcp://broker:55555 --vpn=my-vpn --username=user --password=pass
 ```
 
 Available options:
