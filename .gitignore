@@ -6,9 +6,11 @@ yarn-error.log
 
 # Python virtual environment
 venv/
+.venv/
 env/
 *.pyc
 __pycache__/
+*.egg-info
 
 # Build files
 /demo/build/
@@ -30,3 +32,4 @@ __pycache__/
 # OS specific
 .DS_Store
 Thumbs.db
+.aider*
